@@ -1,0 +1,15 @@
+{
+  "id": "sample-0001",
+  "input": "<original article text>",
+  "reference": "<dataset reference summary or null>",
+  "llm": {
+    "model": "gpt-5-mini",
+    "summary": "<summary text>",
+    "meta": {"latency_ms": 123, "prompt": "<prompt used>"}
+  },
+  "agent": {
+    "pipeline_steps": ["reasoning","retriever","summarizer","proofreader"],
+    "summary": "<summary text>",
+    "logs": {"reasoning": "...", "retriever": "...", "proofreader": "..."}
+  }
+}
