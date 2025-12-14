@@ -2,6 +2,7 @@ from google.adk.agents.llm_agent import Agent
 from MultiAgent.reasoning_agent import reasoning_agent
 from MultiAgent.model_training_agent import model_training_agent
 from MultiAgent.summary_generator_agent import summary_generator_agent
+from MultiAgent.proofreading_agent import proofreading_agent
 
 root_agent = Agent(
     model='gemini-2.5-flash',
@@ -16,5 +17,5 @@ root_agent = Agent(
 
     - You will call the reasoning_agent and transfer the input texts or paragraphs to understand the input text.
     """,
-    sub_agents=[reasoning_agent, model_training_agent, summary_generator_agent]
+    sub_agents=[reasoning_agent, model_training_agent, summary_generator_agent, proofreading_agent]
 )
