@@ -14,7 +14,5 @@ summary_generator_agent = Agent(
     - Use the trained model from model_training_agent to enhance the quality of the summary.
 
     - No evaluation metric is required for this task.
-
-    - After the execution of this agent,  always return or print or display this text: "summary_generator_agent.py working successfully."
     """,
 )

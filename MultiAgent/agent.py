@@ -15,8 +15,6 @@ root_agent = Agent(
     - You will delegate the summarization tasks to specialized sub-agents sequentially.
 
     - You will call the reasoning_agent and transfer the input texts or paragraphs to understand the input text.
-
-    - After the execution of this agent,  always return or print or display this text: "agent.py working successfully."
     """,
     sub_agents=[reasoning_agent, model_training_agent, summary_generator_agent]
 )

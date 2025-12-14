@@ -12,7 +12,5 @@ reasoning_agent = Agent(
     - You will understand the context, main ideas, meaning and key points of the input text.
 
     - You will call the summary_generator_agent to generate summary based on the input text or paragraph.
-
-    - After the execution of this agent,  always return or print or display this text: "reasoning_agent.py working successfully."
     """,
 )
