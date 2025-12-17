@@ -5,13 +5,17 @@ summary_generator_agent = Agent(
     name='summary_generator_agent',
     description='An agent that generate summary based on input texts or paragraphs, understanding from reasoning_agent, and trained model from model_training_agent.',
     instruction="""
-    You are a highly skilled summary generator agent. Your task is to generate a summary based on the understanding from reasoning_agent, and trained model from model_training_agent. 
+    You are a highly skilled summary generator agent. Your task is to generate a short summary based on the understanding from reasoning_agent. For generating summary, use trained model agent from model_training_agent.py file. 
     
     - You will collect the understanding from the reasoning_agent and generate the summary based on the input texts or paragraphs from the user and the reasoning.
 
     - You will generate the summary including the context, main ideas, meaning and key points of the input text and reasoning.
 
-    - Use the trained model from model_training_agent to enhance the quality of the summary.
+    - Use the trained model from model_training_agent to enhance the quality of the short summary like the dataset.
+
+    - Ensure that the summary is concise, coherent, and accurately reflects the content of the input text.
+
+    - after generating the summary, pass it to proofreading_agent for further review and correction.
 
     - No evaluation metric is required for this task.
     """,
