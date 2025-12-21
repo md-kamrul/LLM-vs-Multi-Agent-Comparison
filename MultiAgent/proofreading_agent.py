@@ -3,7 +3,7 @@ from google.adk.agents.llm_agent import Agent
 proofreading_agent = Agent(
     model='gemini-2.5-flash',
     name='proofreading_agent',
-    description='An agent that proofread and correct the generated summary from summary_generator_agent.',
+    description='An agent that proofreads and corrects the generated summary from summary_generator_agent.',
     instruction="""
     You are a highly skilled proofreading agent. Your task is to proofread and correct the generated summary from summary_generator_agent.
 
@@ -17,6 +17,6 @@ proofreading_agent = Agent(
 
     - You will ensure that the summary is clear, concise, and accurately reflects the main ideas of the input text.
 
-    - You will make necessary corrections and improvements to enhance the overall quality of the summary, returning the polished summary with no additional commentary so the root agent can append its final message.
+    - You will make necessary corrections and improvements to enhance the overall quality of the summary and return only the polished summary, so that the root agent can then call evaluation_agent to compute BLEU and ROUGE scores before sending the final response to the user.
     """,
 )

@@ -58,7 +58,7 @@ def _build_few_shot_block(records: List[Dict[str, str]]) -> str:
 
 _MODULE_DIR = Path(__file__).resolve().parent
 _DATASET_PATH = _MODULE_DIR.parent / "Dataset" / "cnn_dailymail_test.jsonl"
-_SAMPLE_SIZE = 200
+_SAMPLE_SIZE = 100
 
 seed_value = os.getenv("MODEL_TRAINING_AGENT_SEED")
 if seed_value:
@@ -79,23 +79,41 @@ model_training_agent = Agent(
     description="An agent that primes the summarization model using few-shot examples.",
     instruction=dedent(
         f"""
-        You are a highly skilled model training agent. Your task is to prime the model with representative few-shot examples so that downstream summarization agents produce concise, faithful summaries.
+                You are a highly skilled model training agent. Your task is to analyze the embedded few-shot examples and produce a concise style guide that downstream summarization agents must follow.
 
-        - Load the dataset located at "{_DATASET_PATH.relative_to(_MODULE_DIR.parent)}".
-        - Use the "article" field as the source text and the "reference" field as the expected summary. Ignore any "id" field that may appear.
-        - Rely on the following randomly sampled set of {_SAMPLE_SIZE} examples to capture the dataset style. Treat them as canonical demonstrations for few-shot prompting and prefer lexical overlap with the provided summaries when reasonable.
-        - The dataset is already split for you; prioritize pattern learning over evaluation metrics.
-        - Maintain consistency with the tone, length, and factual grounding shown in the examples.
+                Context:
+                - The dataset is located at "{_DATASET_PATH.relative_to(_MODULE_DIR.parent)}".
+                - You see a randomly sampled set of {_SAMPLE_SIZE} article/reference pairs from this dataset below.
+                - Each pair has an "article" (source text) and "reference" (gold summary).
 
-        Few-shot training pairs:
+                Your goals:
+                - Infer the typical summary style used in these examples, including:
+                        - Typical summary length in sentences.
+                        - Tone (e.g., neutral, factual, headline-like, etc.).
+                        - Level of detail vs. brevity.
+                        - Preference for lexical overlap vs. paraphrasing.
+                - Turn these observations into a compact style guide that another agent can apply when generating summaries for new articles.
 
-        {_build_few_shot_block(_few_shot_examples)}
+                Few-shot training pairs (for you to analyze):
 
-    - Use these examples to prime the model for generating high-quality summaries in subsequent tasks.
+                {_build_few_shot_block(_few_shot_examples)}
 
-    - after training the model with few-shot examples, pass control to summary_generator_agent for generating summary. so that it can use the trained model for better summary generation.
+                Now, based ONLY on the examples above, output a single JSON object with EXACTLY this structure and nothing else:
 
-    - No output is required from you for this task.
+                {{
+                    "style_guidelines": [
+                        "<bullet-point rule 1>",
+                        "<bullet-point rule 2>",
+                        "<bullet-point rule 3>"
+                    ],
+                    "length_hint_sentences": <integer>,
+                    "lexical_overlap_preference": "high" | "medium" | "low"
+                }}
+
+                Rules:
+                - Do not explain your reasoning.
+                - Do not add any text before or after the JSON object.
+                - Ensure the JSON is syntactically valid.
         """
     ),
 )
